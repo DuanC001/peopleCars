@@ -30,51 +30,70 @@ const AddPerson = () => {
           query: GET_PEOPLE,
           data: {
             ...data,
-            people: [...data.people, addPerson],
+            people: [
+              ...data.people,
+              {
+                ...addPerson,
+                cars: [],
+              },
+            ],
           },
         });
       },
     });
 
-    form.resetFields(); 
+    form.resetFields();
   };
 
   return (
-    <Form
-      name="add-person-form"
-      layout="inline"
-      size="large"
-      style={{ marginBottom: "40px" }}
-      form={form}
-      onFinish={onFinish}
-    >
-      <Form.Item
-        name="firstName"
-        rules={[{ required: true, message: "Enter a first name" }]}
+    <div>
+      <h1
+        style={{
+          fontSize: 20,
+          padding: "15px",
+          marginBottom: "20px",
+          textAlign: "center",
+        }}
       >
-        <Input placeholder="i.e. John" />
-      </Form.Item>
-      <Form.Item
-        name="lastName"
-        rules={[{ required: true, message: "Enter a last name" }]}
+        Add Person
+      </h1>
+      <Form
+        name="add-person-form"
+        layout="inline"
+        size="large"
+        style={{ marginBottom: "40px" }}
+        form={form}
+        onFinish={onFinish}
       >
-        <Input placeholder="i.e. Smith" />
-      </Form.Item>
-      <Form.Item shouldUpdate={true}>
-        {() => (
-          <Button
-            type="primary"
-            htmlType="submit"
-            disabled={
-              !form.isFieldsTouched(true) ||
-              form.getFieldsError().filter(({ errors }) => errors.length).length
-            }
-          >
-            Add Person
-          </Button>
-        )}
-      </Form.Item>
-    </Form>
+        <Form.Item
+          name="firstName"
+          rules={[{ required: true, message: "Enter a first name" }]}
+        >
+          <Input placeholder="i.e. John" />
+        </Form.Item>
+        <Form.Item
+          name="lastName"
+          rules={[{ required: true, message: "Enter a last name" }]}
+        >
+          <Input placeholder="i.e. Smith" />
+        </Form.Item>
+        <Form.Item shouldUpdate={true}>
+          {() => (
+            <Button
+              type="primary"
+              htmlType="submit"
+              disabled={
+                !form.isFieldsTouched(true) ||
+                form.getFieldsError().filter(({ errors }) => errors.length)
+                  .length
+              }
+            >
+              Add Person
+            </Button>
+          )}
+        </Form.Item>
+      </Form>
+    </div>
   );
 };
 

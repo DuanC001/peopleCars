@@ -1,6 +1,5 @@
 import find from "lodash.find";
 import remove from "lodash.remove";
-// const { gql } = require("apollo-server-express");
 
 const people = [
   { id: "1", firstName: "Bill", lastName: "Gates" },
@@ -98,7 +97,6 @@ const typeDefs = `
     model: String!
     price: Float!
     personId: String!
-    person: Person
   }
 
   type Query {
@@ -162,6 +160,7 @@ const resolvers = {
     deletePerson: (root, { id }) => {
       const removedPerson = find(people, { id });
       if (!removedPerson) throw new Error(`Couldn't find person with id ${id}`);
+      remove(cars, (c) => c.personId === removedPerson.id);
       remove(people, (p) => p.id === removedPerson.id);
       return removedPerson;
     },
@@ -197,9 +196,7 @@ const resolvers = {
   Person: {
     cars: (person) => cars.filter((car) => car.personId === person.id),
   },
-  Car: {
-    person: (car) => find(people, { id: car.personId }),
-  },
 };
 
 export { typeDefs, resolvers };
+

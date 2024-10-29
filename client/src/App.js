@@ -1,8 +1,8 @@
-import "./App.css";
+import React from "react";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import Title from "./components/Title";
-import AddPerson from "./components/AddPerson";
-import Records from "./components/Records";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import HomePage from "./HomePage";
+import ShowPage from "./components/ShowPage.js";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
@@ -12,11 +12,12 @@ const client = new ApolloClient({
 const App = () => {
   return (
     <ApolloProvider client={client}>
-      <div className="App">
-        <Title />
-        <AddPerson/>
-        <Records/>
-      </div>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/people/:id" element={<ShowPage />} />
+        </Routes>
+      </Router>
     </ApolloProvider>
   );
 };
